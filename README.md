@@ -6,14 +6,15 @@ Ba-Nanos is an application that applies a Neural Style Transfer using PyTorch on
 
 ## Team Members
 <ul>
-<li>[Cristian A]</li>
+<li>[Cristian A](https://github.com/achrrr)</li>
 <li>[Brendan Costello](https://github.com/BrendanCostello)</li>
-<li>[Methila Deb]</li>
+<li>[Methila Deb](https://github.com/methiladeb)</li>
 <li>[Savannah Chhann]</li>
 </ul>
 
 ## Technologies Used for This Project
 <ul>
+<li>Flask</li>
 <li>MongoDB</li>
 <li>Node.js</li>
 <li>Pytorch</li>
