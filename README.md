@@ -30,3 +30,21 @@ Coming Soon...
 
 ## Dependencies
 
+You'll want to create a virtual environment first:
+
+```shell
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Then install the required modules:
+
+```shell
+pip install -r requirements.txt
+```
+
+To update the list of required packages:
+
+```shell
+pip freeze > requirements.txt
+```
