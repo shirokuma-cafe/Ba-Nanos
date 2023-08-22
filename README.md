@@ -10,9 +10,9 @@ Ba-Nanos is an application that applies a Neural Style Transfer using PyTorch on
 
 [Brendan Costello](https://github.com/BrendanCostello)
 
-[Methila Deb](https://github.com/methiladeb)
-
 [Savannah Chhann](https://github.com/shirokuma-cafe)
+
+[Methila Deb](https://github.com/methiladeb)
 
 ## Technologies Used for This Project
 <ul>
