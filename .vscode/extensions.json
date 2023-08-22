@@ -1,0 +1,19 @@
+{
+  "recommendations": [
+    "EditorConfig.EditorConfig",
+    "GitHub.remotehub",
+    "GitHub.vscode-pull-request-github",
+    "mechatroner.rainbow-csv",
+    "donjayamanne.python-extension-pack",
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode.remote-explorer",
+    "ms-vscode.remote-repositories",
+    "ms-vscode-remote.remote-ssh",
+    "ms-vscode-remote.remote-ssh-edit",
+    "ms-vsliveshare.vsliveshare",
+    "oderwat.indent-rainbow",
+    "rangav.vscode-thunder-client",
+    "timonwong.shellcheck",
+    "usernamehw.errorlens"
+  ]
+}
