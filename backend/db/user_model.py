@@ -21,9 +21,11 @@ def create_user(username: str, password: str, collection):
     
         users_collecion.insert_one({
             "username": username,
-            "password": hashed_pw.hexdigest()
+            "password": hashed_pw.hexdigest(),
         })
 
-        return f"Sucessfully created user {username}"
+        return jsonify({
+            "message": f"Successfuly created user: {username}",
+        })
     except Exception as e:
         print(e)
