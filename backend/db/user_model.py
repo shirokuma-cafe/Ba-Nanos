@@ -18,7 +18,7 @@ def create_user(username: str, password: str, collection):
                 f"username {username} is already registered, try a different username",
                 400
             )
-    
+
         users_collecion.insert_one({
             "username": username,
             "password": hashed_pw.hexdigest(),

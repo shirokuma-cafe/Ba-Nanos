@@ -1,6 +1,4 @@
 from pymongo.mongo_client import MongoClient
-from dotenv import dotenv_values
-conf = dotenv_values("../../.env")
 
 class CollectionManager():
     """Class to handle accessing various collections inside MongoDB
@@ -8,7 +6,7 @@ class CollectionManager():
     """
     def __init__(self, uri) -> None:
         self.uri = uri
-    
+
     def get_styles_collection(self):
 
         self.client = MongoClient(self.uri)
@@ -19,9 +17,9 @@ class CollectionManager():
 
         except Exception as e:
             print(e)
-    
+
         return collection
-    
+
     def get_user_collection(self, database="user", collection_name="user_data"):
         self.client = MongoClient(self.uri)
         try:
@@ -31,9 +29,9 @@ class CollectionManager():
 
         except Exception as e:
             print(e)
-    
+
         return collection
-    
+
 # Returns a collection with the specified collection name
 """
 def get_collection(database: str, collection_name: str):
@@ -46,6 +44,6 @@ def get_collection(database: str, collection_name: str):
 
     except Exception as e:
         print(e)
-    
+
     return collection
 """

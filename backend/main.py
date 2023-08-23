@@ -4,12 +4,11 @@ from PIL import Image
 from pymongo.errors import OperationFailure
 from db.collection_model import CollectionManager
 from db.user_model import create_user
-from dotenv import dotenv_values
+# from dotenv import dotenv_values
 from flask_cors import CORS, cross_origin
 from db.image_model import get_style_image
 import base64
 
-conf = dotenv_values("../.env")
 app = Flask(__name__, template_folder="../templates/")
 cors = CORS(app, resource={
     r"/*":{
@@ -68,4 +67,4 @@ def process_image():
         'data': data
     })
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=8080)  
+    app.run(debug=True, host="0.0.0.0", port=8080)
