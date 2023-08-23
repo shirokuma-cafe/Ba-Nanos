@@ -16,8 +16,8 @@ cors = CORS(app, resource={
         "origins":"*"
     }
 })
-
-collection_manager = CollectionManager( "mongodb+srv://bnanos-user:LeWIpAO2oQ9uMFgg@bananos.w7ajfnm.mongodb.net/?retryWrites=true&w=majority")
+# Remove connectiong string (sensitive info)
+#collection_manager = CollectionManager()
 style_collection = collection_manager.get_styles_collection()
 user_collection = collection_manager.get_user_collection()
 
