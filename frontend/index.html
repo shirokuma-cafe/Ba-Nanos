@@ -23,9 +23,13 @@
             showImage.after(image);
         }
         async function generateImage(event){
-            event.preventDefault()
+            event.preventDefault();
 
-            alert("function startung")
+            alert("function starting")
+            const loadingElement = document.getElementById('loading'); // ADDED
+            loadingElement.style.display = 'block'; // ADDED: Show the loading GIF
+            const loadingElement = document.getElementById('loading');
+            const generateButton = document.getElementById('generate-button');
             const form = document.getElementById("imageform")
             const submitter = document.querySelector("button[value=Submit]");
             const reqform = new FormData();
@@ -51,6 +55,7 @@
                 return response.json()
             })
             .then((json) => {
+                loadingElement.style.display = 'none'; // ADDED: Hide the loading GIF
                 let imageData = json;
                 console.log(json)
                 const imageBytes = imageData.data;
@@ -70,7 +75,7 @@
                 image.onload = () => {
                     context.drawImage(image, 0, 0)
                 }
-            })
+            });
         }
     </script>
     <style>
@@ -78,13 +83,13 @@
         margin: 0;
         padding: 0;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-        background: linear-gradient(135deg, #48058b, #000000, #48058b, #000000);
+        background: linear-gradient(135deg, #d34a24, #992800, #d34a24, #992800);
         background-size: 400% 200%;
         animation: gradient-shift 6s ease infinite;
     }
 
     header {
-        color: #c0c0c0;
+        color: #3c7f72;
         padding: 10px;
         display: flex;
     }
@@ -148,7 +153,7 @@
         flex: 1 1;
         position: relative;
         margin: 50;
-        background: #fff;
+        background: #ffcb2f;
     }
 
     @keyframes gradient-shift {
@@ -233,6 +238,11 @@
         </form>
 
         <div id="image-canvas" class="canvas main-content-right">
+
+            <div id="loading" style="display: none;">
+                <img id="loading-image" src="frontend/asset/Cube_load.gif" alt="Loading..." />
+            </div> 
+            
             <div class="canvas-content">
                 <canvas id="canvas-image" width="612" height="500">
             </div>
