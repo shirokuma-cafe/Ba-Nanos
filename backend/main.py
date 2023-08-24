@@ -7,8 +7,8 @@ from PIL import Image
 from pathlib import Path
 from db.collection_model import CollectionManager
 from db.user_model import create_user
-#from dotenv import dotenv_values
 from NST import image_loader, run_style_transfer, imshow
+#from dotenv import dotenv_values
 from flask_cors import CORS, cross_origin
 from uuid import uuid4
 import base64
@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 # Access connectiong string environment variable
 URI = os.environ["MONGO_URI"]
-app = Flask(__name__, template_folder="../frontend/")
+app = Flask(__name__, template_folder="../templates/")
 cors = CORS(app, resource={
     r"/*":{
         "origins":"*"

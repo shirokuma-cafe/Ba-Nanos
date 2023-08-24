@@ -6,8 +6,8 @@ from typing import Union
 from pathlib import Path
 from pymongo.collection import Collection
 from pymongo import MongoClient
-#rom dotenv import dotenv_values
-#conf = dotenv_values("../../.env")
+# from dotenv import dotenv_values
+# conf = dotenv_values("../../.env")
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 def insert_style_image(style_name:str, image: Union[str, BytesIO], collection):
