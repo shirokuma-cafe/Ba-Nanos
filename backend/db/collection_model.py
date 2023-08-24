@@ -1,4 +1,6 @@
 from pymongo.mongo_client import MongoClient
+#from dotenv import dotenv_values
+#conf = dotenv_values("../../.env")
 
 class CollectionManager():
     """Class to handle accessing various collections inside MongoDB

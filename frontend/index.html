@@ -5,15 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="author" content="Brendan, Cristian, Savannah, Methila" />
     <title> Ba-Nanos Art Generator </title>
-    <style> 
+    <script>
+
+        var jsondata;
+        function generateIm(data) {
+            alert(data)
+            const imageBytes = data.get("data");
+            const format = data.get("format");
+
+            const showImage = document.getElementById("image-canvas");
+            const image = document.createElement('img');;
+
+            image.setAttribute(
+                'src', `data:image/${format};base64,${imageBytes}`
+            )
+            alert(image)
+            showImage.after(image);
+        }
+        async function generateImage(event){
+            event.preventDefault()
+
+            alert("function startung")
+            const form = document.getElementById("imageform")
+            const submitter = document.querySelector("button[value=Submit]");
+            const reqform = new FormData();
+            const submittedForm = new FormData(form, submitter);
+
+            const file = document.querySelector('input[type=file]');
+            var fileName = file.files[0].name;
+            var style = submittedForm.get('style');
+            const format = fileName.split(".").pop();
+            //alert(format);
+
+            alert(file);
+            //alert(style);
+
+            reqform.append('file', file.files[0])
+            reqform.append('style', style)
+            reqform.append('extension', format)
+            await fetch('http://127.0.0.1:8080/process', {
+                method: "POST",
+                body: reqform
+            })
+            .then((response) => {
+                return response.json()
+            })
+            .then((json) => {
+                let imageData = json;
+                console.log(json)
+                const imageBytes = imageData.data;
+                const format = imageData.format
+                console.log(format)
+                console.log(imageBytes)
+
+                const canvas = document.getElementById("canvas-image");
+                context = canvas.getContext("2d");
+                const image = document.createElement('img');;
+
+                image.setAttribute(
+                'src', `data:image/${format};base64,${imageBytes}`,
+                'width', 500,
+                'height', 500
+                )
+                image.onload = () => {
+                    context.drawImage(image, 0, 0)
+                }
+            })
+        }
+    </script>
+    <style>
     body {
         margin: 0;
         padding: 0;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         background: linear-gradient(135deg, #48058b, #000000, #48058b, #000000);
         background-size: 400% 200%;
         animation: gradient-shift 6s ease infinite;
-    } 
+    }
 
     header {
         color: #c0c0c0;
@@ -31,7 +99,6 @@
         margin-left: 20px;
         color: white;
         font-size: 30px;
-        font-family: 'Courier New', Courier, monospace;
     }
 
     .button-container {
@@ -40,17 +107,10 @@
     }
 
     .button-container button {
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: bold;
-        font-size: 14px; 
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 14px;
     }
 
-    .style-container button {
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: bold;
-        font-size: 12px;
-    }
-    
     .styles {
         min-width: 450px;
         position: relative;
@@ -60,11 +120,11 @@
     }
 
     .styles-input {
-        width: 100%; 
+        width: 100%;
         height: 15px; /* Height of search bar */
         padding: 10px; /* Padding for better visual appearance */
         font-size: 16px; /* Font size in search bar */
-        font-family: 'Courier New', Courier, monospace;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     }
 
     .style-container {
@@ -102,7 +162,7 @@
     </style>
 </head>
 
-<body> 
+<body>
     <header>
         <h1 class="title">Ba-Nanos Art Generator</h1>
         <div class="button-container">
@@ -114,61 +174,70 @@
         </div>
     </header>
     <div class="main-content">
-        <div class="styles main-content-left">
-            <div class="styles-search">
-                <input class="styles-input" placeholder="Search for a certain art style" type="text" value>
+        <form method="POST" enctype="multipart/form-data" id="imageform" onsubmit="generateImage(event)" >
+
+            <input type="file" name="file" accept="image/png, image/jpeg">
+            <input type="submit" id="submitbtn" value="Submit" onsubmit="generateImage()">Submit</input>
+            <div class="styles main-content-left">
+                <div class="styles-search">
+                    <input class="styles-input" placeholder="Search for a certain art style" type="text" value>
+                </div>
+                <div class="style-container">
+                    <div>
+                        <img src="images\abstract.jpg" alt="Abstract Art" class="style-image">
+                        <input type="radio" name="style" value="abstract">Abstract</input>
+                    </div>
+                    <div>
+                        <img src="images\pop-art.avif" alt="Pop Art" class="style-image">
+                        <input type="radio" name="style" value="popart" class="pop-art">Pop Art</input>
+                    </div>
+                    <div>
+                        <img src="images\superstring.jpg" alt="Superstring" class="style-image">
+                        <input type="radio" name="style" value="superstring" class="superstring">Superstring</input>
+                    </div>
+                    <div>
+                        <img src="images\cartoon.jpg" alt="Cartoon" class="style-image">
+                        <input type="radio" name="style" value="cartoon" class="cartoon">Cartoon</input>
+                    </div>
+                    <div>
+                        <img src="images\inkart.avif" alt="Ink Art" class="style-image">
+                        <input type="radio" name="style" value="ink-art" class="ink-art">Ink Art</input>
+                    </div>
+                    <div>
+                        <img src="images\vangogh2.webp" alt="Van Gogh 2" class="style-image">
+                        <input type="radio" name="style" value="van-gogh-2" class="van-gogh-2">Van Gogh 2</input>
+                    </div>
+                    <div>
+                        <img src="images\minimalism.jpg" alt="Minimalism" class="style-image">
+                        <input type="radio" name="style" value="minimalism" class="minimalism">Minimalism</input>
+                    </div>
+                    <div>
+                        <img src="images\realism.jpg" alt="Realism" class="style-image">
+                        <input type="radio" name="style" value="realism" class="realism">Realism</input>
+                    </div>
+                    <div>
+                        <img src="images\futurism.jpg" alt="Futurism" class="style-image">
+                        <input type="radio" name="style" value="futurism" class="futurism">Futurism</input>
+                    </div>
+                    <div>
+                        <img src="images\neoclassicism.jpg" alt="Neoclassicism" class="style-image">
+                        <input type="radio" name="style" value="neoclassicism" class="neoclassicism">Neoclassicism</button>
+                    </div>
+                    <div>
+                        <img src="images\romanticism.jpg" alt="Romanticism" class="style-image">
+                        <input type="radio" name="style" value="romanticism" class="romanticism">Romanticism</button>
+                    </div>
+                </div>
             </div>
-            <div class="style-container">
-                <div>
-                    <img src="images\pop-art.avif" alt="Pop Art" class="style-image">
-                    <button class="pop-art">Pop Art</button>
-                </div>
-                <div>
-                    <img src="images\superstring.jpg" alt="Superstring" class="style-image">
-                    <button class="superstring">Superstring</button>
-                </div>
-                <div>
-                    <img src="images\cartoon.jpg" alt="Cartoon" class="style-image">
-                    <button class="cartoon">Cartoon</button>
-                </div>
-                <div>
-                    <img src="images\inkart.avif" alt="Ink Art" class="style-image">
-                    <button class="ink-art">Ink Art</button>
-                </div>
-                <div>
-                    <img src="images\vangogh2.webp" alt="Van Gogh 2" class="style-image">
-                    <button class="van-gogh-2">Van Gogh 2</button>
-                </div>
-                <div>
-                    <img src="images\minimalism.jpg" alt="Minimalism" class="style-image">
-                    <button class="minimalism">Minimalism</button>
-                </div>
-                <div>
-                    <img src="images\realism.jpg" alt="Realism" class="style-image">
-                    <button class="realism">Realism</button>
-                </div>
-                <div>
-                    <img src="images\futurism.jpg" alt="Futurism" class="style-image">
-                    <button class="futurism">Futurism</button>
-                </div>
-                <div>
-                    <img src="images\neoclassicism.jpg" alt="Neoclassicism" class="style-image">
-                    <button class="neoclassicism">Neoclassicism</button>
-                </div>
-                <div>
-                    <img src="images\romanticism.jpg" alt="Romanticism" class="style-image">
-                    <button class="romanticism">Romanticism</button>
-                </div>
-            </div>
-        </div>
-        <div class="canvas main-content-right">
+
+        </form>
+
+        <div id="image-canvas" class="canvas main-content-right">
             <div class="canvas-content">
-                <canvas width="500" height="500">
-                </canvas>
+                <canvas id="canvas-image" width="500" height="500">
             </div>
         </div>
     </div>
-    
-    
+
 </body>
 </html>

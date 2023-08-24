@@ -1,14 +1,21 @@
 from flask import Flask, request, Response, jsonify, render_template
 from io import BytesIO
+import os
+import torchvision.models as models
+import torch
 from PIL import Image
-from pymongo.errors import OperationFailure
+from pathlib import Path
 from db.collection_model import CollectionManager
 from db.user_model import create_user
-# from dotenv import dotenv_values
+from NST import image_loader, run_style_transfer, imshow
+#from dotenv import dotenv_values
 from flask_cors import CORS, cross_origin
-from db.image_model import get_style_image
+from uuid import uuid4
 import base64
+import matplotlib.pyplot as plt
 
+# Access connectiong string environment variable
+URI = os.environ["MONGO_URI"]
 app = Flask(__name__, template_folder="../templates/")
 cors = CORS(app, resource={
     r"/*":{
@@ -16,7 +23,19 @@ cors = CORS(app, resource={
     }
 })
 
-collection_manager = CollectionManager( "mongodb+srv://bnanos-user:LeWIpAO2oQ9uMFgg@bananos.w7ajfnm.mongodb.net/?retryWrites=true&w=majority")
+# Size of image, input and style image must be of same size
+imsize = 512
+cnn = models.vgg19(pretrained=True).features.eval()
+
+cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406])
+cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225])
+
+ROOT_DIR = Path(__file__).parent.parent
+STYLE_IMAGE_DIR = f"{ROOT_DIR}/style_images"
+OUTPUT_IMAGE_DIR = f"{ROOT_DIR}/outputs"
+print(Path(STYLE_IMAGE_DIR).exists())
+
+collection_manager = CollectionManager(URI)
 style_collection = collection_manager.get_styles_collection()
 user_collection = collection_manager.get_user_collection()
 
@@ -44,26 +63,47 @@ def register():
 def process_image():
     data = request.form
     file = request.files['file']
+    ext = data['extension']
     mimetype = file.mimetype
     style = data["style"]
 
-    # Get respective style image from database (expressionist, abstract, sketch, etc)
-    style_image = get_style_image(style, style_collection)
+    # Tag content image with a uuid for deletion afterwards
+    image_id = str(uuid4())
 
+    # Get respective style image from directory
+    style_image = image_loader(f"{STYLE_IMAGE_DIR}/{style}.jpg")
     input_image = Image.open(file.stream)
+    resized = input_image.resize((512, 512))
 
+    # resize and save user's image to match style's image size.
+    resized.save(f"image{image_id}.{ext}")
+
+    # Load input image (user's image)
+    content_image = image_loader(f"image{image_id}.{ext}")
+    input_image = content_image.clone()
+
+    #process output image using PyTorch's Neural Style Transfer
+    print(input_image)
+    tensor_image = run_style_transfer(cnn=cnn, normalization_mean=cnn_normalization_mean,
+    normalization_std=cnn_normalization_std, content_img=content_image, style_img=style_image,input_img=input_image)
+
+    # Convert output image from Tensor into PIL image
+    image:Image = imshow(tensor_image)
+    #image.save(f"{OUTPUT_IMAGE_DIR}/test1.jpg")
     buffer = BytesIO()
-    style_image.save(buffer, 'png')
-    buffer.seek(0)
-    #Process output image
-    #Algorithm goes here
+    # Save image to BytesIO
+    image.save(buffer, 'jpeg')
 
-    #Read bytes from image
+    buffer.seek(0)
     data = buffer.read()
     data = base64.b64encode(data).decode()
+
+    #Remove temporary user file after succesfully processing
+    os.remove(f"image{image_id}.{ext}")
+
     return jsonify({
         'message': 'success',
-        'format': input_image.format,
+        'format': ext,
         'data': data
     })
 if __name__ == "__main__":
