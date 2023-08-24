@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 # Access connectiong string environment variable
 URI = os.environ["MONGO_URI"]
-app = Flask(__name__, template_folder="../templates/")
+app = Flask(__name__, template_folder="../frontend/")
 cors = CORS(app, resource={
     r"/*":{
         "origins":"*"
