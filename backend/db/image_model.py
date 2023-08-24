@@ -6,8 +6,8 @@ from typing import Union
 from pathlib import Path
 from pymongo.collection import Collection
 from pymongo import MongoClient
-from dotenv import dotenv_values
-conf = dotenv_values("../../.env")        
+#rom dotenv import dotenv_values
+#conf = dotenv_values("../../.env")
 
 ROOT_DIR = Path(__file__).parent.parent.parent
 def insert_style_image(style_name:str, image: Union[str, BytesIO], collection):
@@ -53,7 +53,7 @@ def insert_style_image(style_name:str, image: Union[str, BytesIO], collection):
 
 def get_style_image(style: str, collection):
     """
-    Returns a style image based on specified style, this style is then applied to 
+    Returns a style image based on specified style, this style is then applied to
     input image
     """
     collection: Collection = collection
@@ -61,5 +61,5 @@ def get_style_image(style: str, collection):
 
     # Get byte data from database
     image = Image.open(BytesIO(style_image['data']))
-    
+
     return image

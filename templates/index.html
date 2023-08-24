@@ -12,7 +12,7 @@
             alert(data)
             const imageBytes = data.get("data");
             const format = data.get("format");
-        
+
             const showImage = document.getElementById("image-canvas");
             const image = document.createElement('img');;
 
@@ -22,8 +22,7 @@
             alert(image)
             showImage.after(image);
         }
-            
-        generateImage = (event) => {
+        async function generateImage(event){
             event.preventDefault()
 
             alert("function startung")
@@ -32,15 +31,19 @@
             const reqform = new FormData();
             const submittedForm = new FormData(form, submitter);
 
-            var file = document.querySelector('input[type=file]');
+            const file = document.querySelector('input[type=file]');
+            var fileName = file.files[0].name;
             var style = submittedForm.get('style');
+            const format = fileName.split(".").pop();
+            alert(format);
 
             alert(file);
             alert(style);
 
             reqform.append('file', file.files[0])
             reqform.append('style', style)
-            fetch('http://127.0.0.1:8080/process', {
+            reqform.append('extension', format)
+            await fetch('http://127.0.0.1:8080/process', {
                 method: "POST",
                 body: reqform
             })
@@ -54,7 +57,7 @@
                 const format = imageData.format
                 console.log(format)
                 console.log(imageBytes)
-        
+
                 const canvas = document.getElementById("canvas-image");
                 context = canvas.getContext("2d");
                 const image = document.createElement('img');;
@@ -68,12 +71,9 @@
                     context.drawImage(image, 0, 0)
                 }
             })
-        
-            
-            
-        }       
+        }
     </script>
-    <style> 
+    <style>
     body {
         margin: 0;
         padding: 0;
@@ -81,7 +81,7 @@
         background: linear-gradient(135deg, #48058b, #000000, #48058b, #000000);
         background-size: 400% 200%;
         animation: gradient-shift 6s ease infinite;
-    } 
+    }
 
     header {
         color: #c0c0c0;
@@ -107,8 +107,8 @@
     }
 
     .button-container button {
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
-        font-size: 14px; 
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 14px;
     }
 
     .styles {
@@ -120,7 +120,7 @@
     }
 
     .styles-input {
-        width: 100%; 
+        width: 100%;
         height: 15px; /* Height of search bar */
         padding: 10px; /* Padding for better visual appearance */
         font-size: 16px; /* Font size in search bar */
@@ -162,7 +162,7 @@
     </style>
 </head>
 
-<body> 
+<body>
     <header>
         <h1 class="title">Ba-Nanos Art Generator</h1>
         <div class="button-container">
@@ -175,7 +175,7 @@
     </header>
     <div class="main-content">
         <form method="POST" enctype="multipart/form-data" id="imageform" onsubmit="generateImage(event)" >
-            
+
             <input type="file" name="file" accept="image/png, image/jpeg">
             <input type="submit" id="submitbtn" value="Submit" onsubmit="generateImage()">Submit</input>
             <div class="styles main-content-left">
@@ -229,15 +229,15 @@
                     </div>
                 </div>
             </div>
-            
+
         </form>
-        
+
         <div id="image-canvas" class="canvas main-content-right">
             <div class="canvas-content">
                 <canvas id="canvas-image" width="500" height="500">
             </div>
         </div>
     </div>
-    
+
 </body>
 </html>
