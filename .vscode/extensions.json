@@ -1,19 +1,22 @@
 {
   "recommendations": [
+    "donjayamanne.python-extension-pack",
+    "donjayamanne.python-environment-manager",
     "EditorConfig.EditorConfig",
     "GitHub.remotehub",
     "GitHub.vscode-pull-request-github",
     "mechatroner.rainbow-csv",
-    "donjayamanne.python-extension-pack",
+    "ms-python.black-formatter",
     "ms-vscode-remote.remote-containers",
-    "ms-vscode.remote-explorer",
-    "ms-vscode.remote-repositories",
     "ms-vscode-remote.remote-ssh",
     "ms-vscode-remote.remote-ssh-edit",
+    "ms-vscode.remote-explorer",
+    "ms-vscode.remote-repositories",
     "ms-vsliveshare.vsliveshare",
     "oderwat.indent-rainbow",
     "rangav.vscode-thunder-client",
     "timonwong.shellcheck",
+    "tyriar.sort-lines",
     "usernamehw.errorlens"
   ]
 }
