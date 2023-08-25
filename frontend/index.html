@@ -25,10 +25,13 @@
         async function generateImage(event){
             event.preventDefault();
 
+            // Get the canvas to place the loading gif onto
+            const canvas = document.getElementById("canvas-image");
+            context = canvas.getContext("2d");
+
             alert("function starting")
             const loadingElement = document.getElementById('loading'); // ADDED
             loadingElement.style.display = 'block'; // ADDED: Show the loading GIF
-            const loadingElement = document.getElementById('loading');
             const generateButton = document.getElementById('generate-button');
             const form = document.getElementById("imageform")
             const submitter = document.querySelector("button[value=Submit]");
@@ -63,8 +66,7 @@
                 console.log(format)
                 console.log(imageBytes)
 
-                const canvas = document.getElementById("canvas-image");
-                context = canvas.getContext("2d");
+
                 const image = document.createElement('img');;
 
                 image.setAttribute(
@@ -201,9 +203,9 @@
         <div id="image-canvas" class="canvas main-content-right">
 
             <div id="loading" style="display: none;">
-                <img id="loading-image" src="frontend/asset/Cube_load.gif" alt="Loading..." />
-            </div> 
-            
+                <img id="loading-image" src="/static/asset/Cube_load.gif" alt="Loading..." />
+            </div>
+
             <div class="canvas-content">
                 <canvas id="canvas-image" width="612" height="500">
             </div>
