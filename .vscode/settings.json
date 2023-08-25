@@ -1,10 +1,16 @@
 {
-  "editor.codeActionsOnSave": ["source.formatDocument"],
-  "editor.formatOnSave": false,
+  "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter",
+      "editor.formatOnPaste": false,
+      "editor.formatOnSave": true,
+      "editor.formatOnSaveMode": "file"
+  },
+  "editor.codeActionsOnSave": ["source.formatDocument", "source.organizeImports"],
   "editor.rulers": [80],
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 80,
   "files.trimTrailingWhitespace": true,
   "indentRainbow.indicatorStyle": "light",
+  "python.venvPath": "${workspaceFolder}/.venv",
   "terminal.integrated.scrollback": 10000
 }
