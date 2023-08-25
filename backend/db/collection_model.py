@@ -4,7 +4,7 @@ from pymongo.mongo_client import MongoClient
 
 class CollectionManager():
     """Class to handle accessing various collections inside MongoDB
-    returns specified collection from function
+    :param uri: string containing mongoDB connectiong string.
     """
     def __init__(self, uri) -> None:
         self.uri = uri
