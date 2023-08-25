@@ -12,9 +12,9 @@ from flask import Flask, Response, jsonify, render_template, request
 from flask_cors import CORS, cross_origin
 from PIL import Image
 
-from .db.collection_model import CollectionManager
-from .db.user_model import create_user
-from .NST import image_loader, imshow, run_style_transfer
+from db.collection_model import CollectionManager
+from db.user_model import create_user
+from NST import image_loader, imshow, run_style_transfer
 
 # Access connection string environment variable
 URI = os.environ["MONGO_URI"]
