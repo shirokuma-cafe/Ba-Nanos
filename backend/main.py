@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 # Access connectiong string environment variable
 URI = os.environ["MONGO_URI"]
-app = Flask(__name__, template_folder="../frontend/")
+app = Flask(__name__, template_folder="../frontend")
 cors = CORS(app, resource={
     r"/*":{
         "origins":"*"
@@ -32,8 +32,7 @@ cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225])
 
 ROOT_DIR = Path(__file__).parent.parent
 STYLE_IMAGE_DIR = f"{ROOT_DIR}/style_images"
-OUTPUT_IMAGE_DIR = f"{ROOT_DIR}/outputs"
-print(Path(STYLE_IMAGE_DIR).exists())
+IMAGES_DIR = f"{ROOT_DIR}/backend/static/images"
 
 collection_manager = CollectionManager(URI)
 style_collection = collection_manager.get_styles_collection()
@@ -41,26 +40,43 @@ user_collection = collection_manager.get_user_collection()
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    return render_template("index.html")
+    images = [im for im in os.listdir(IMAGES_DIR)]
+    return render_template("index.html", user_image = images)
 
-# Health status check of backend
 @app.route("/ping", methods=["GET"])
 def index():
+    """
+    Validates that the server is up and runing.
+    """
     return Response("Server is running", status=200)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Register a new user.
+
+    Validates that the username is not already taken. Hashes the
+    password for security inside creater_user function.
+    """
     # Get form data
-    form_data = request.form
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
 
-    username = form_data["username"]
-    password = form_data["password"]
+        if not username:
+            return "Username is required"
+        elif not password:
+            return "Password is required"
 
-    return create_user(username, password, collection=user_collection)
+        return create_user(username, password, collection=user_collection)
 
 @app.route("/process", methods=["POST"])
 @cross_origin()
 def process_image():
+    """Proccesses an input image using PyTorch's Neural Style Transfer (NST)
+    and returns a transformed image with a specified style, image is proccessed in the frontend as base46 encoded bytes."""
+
+    # Access form data: image stream, image extension and style
     data = request.form
     file = request.files['file']
     ext = data['extension']

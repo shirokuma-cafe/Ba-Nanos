@@ -188,53 +188,14 @@
                     <input class="styles-input" placeholder="Search for a certain art style" type="text" value>
                 </div>
                 <div class="style-container">
+                    {% for filename in user_image %}
                     <div>
-                        <img src="images\abstract.jpg" alt="Abstract Art" class="style-image">
-                        <input type="radio" name="style" value="abstract">Abstract</input>
+                        <img src="/static/images/{{filename}}" alt="{{filename}}" class="style-image">
+                        <input type="radio" name="style" value="{{filename.split('.')[0]}}">{{filename.split(".")[0].title()}}</input>
                     </div>
-                    <div>
-                        <img src="images\pop-art.avif" alt="Pop Art" class="style-image">
-                        <input type="radio" name="style" value="popart" class="pop-art">Pop Art</input>
-                    </div>
-                    <div>
-                        <img src="images\superstring.jpg" alt="Superstring" class="style-image">
-                        <input type="radio" name="style" value="superstring" class="superstring">Superstring</input>
-                    </div>
-                    <div>
-                        <img src="images\cartoon.jpg" alt="Cartoon" class="style-image">
-                        <input type="radio" name="style" value="cartoon" class="cartoon">Cartoon</input>
-                    </div>
-                    <div>
-                        <img src="images\inkart.avif" alt="Ink Art" class="style-image">
-                        <input type="radio" name="style" value="ink-art" class="ink-art">Ink Art</input>
-                    </div>
-                    <div>
-                        <img src="images\vangogh2.webp" alt="Van Gogh 2" class="style-image">
-                        <input type="radio" name="style" value="van-gogh-2" class="van-gogh-2">Van Gogh 2</input>
-                    </div>
-                    <div>
-                        <img src="images\minimalism.jpg" alt="Minimalism" class="style-image">
-                        <input type="radio" name="style" value="minimalism" class="minimalism">Minimalism</input>
-                    </div>
-                    <div>
-                        <img src="images\realism.jpg" alt="Realism" class="style-image">
-                        <input type="radio" name="style" value="realism" class="realism">Realism</input>
-                    </div>
-                    <div>
-                        <img src="images\futurism.jpg" alt="Futurism" class="style-image">
-                        <input type="radio" name="style" value="futurism" class="futurism">Futurism</input>
-                    </div>
-                    <div>
-                        <img src="images\neoclassicism.jpg" alt="Neoclassicism" class="style-image">
-                        <input type="radio" name="style" value="neoclassicism" class="neoclassicism">Neoclassicism</button>
-                    </div>
-                    <div>
-                        <img src="images\romanticism.jpg" alt="Romanticism" class="style-image">
-                        <input type="radio" name="style" value="romanticism" class="romanticism">Romanticism</button>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
-
         </form>
 
         <div id="image-canvas" class="canvas main-content-right">
