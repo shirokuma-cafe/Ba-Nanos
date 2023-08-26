@@ -3,7 +3,7 @@
 ## Intro
 
 Ba-Nanos is an application that applies a Neural Style Transfer using PyTorch on
-user provided images. Anyone can use the application by visiting [our site](#).
+user provided images. 
 
 ## Team Members
 
@@ -17,12 +17,23 @@ user provided images. Anyone can use the application by visiting [our site](#).
 
 ## Technologies Used for This Project
 
-- Flask
-- Heroku
-- MongoDB
-- Node.js
-- Pytorch
-- Tailwind CSS
+- Languages
+  - CSS
+  - HTML
+  - Javascript
+  - Python 3.10
+- Frameworks
+  - Flask
+  - PyTorch
+- Security
+  - Dotenv
+  - Salt
+- Imaging
+  - MatPlotLib
+  - Pillow
+- Database
+  - MongoDB
+
 
 ## Demo
 
